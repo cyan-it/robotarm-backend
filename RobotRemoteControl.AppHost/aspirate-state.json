@@ -1,0 +1,31 @@
+{
+  "projectPath": ".",
+  "inputPath": "aspirate-output",
+  "outputPath": "aspirate-output",
+  "namespace": "roboarm",
+  "containerImageTags": [
+    "latest"
+  ],
+  "containerBuilder": "docker",
+  "kubeContext": "roboarm",
+  "outputFormat": "kustomize",
+  "skipFinalKustomizeGeneration": false,
+  "privateRegistryEmail": "aspir8@aka.ms",
+  "useCustomNamespace": true,
+  "secrets": {
+    "salt": "clRbeLIkHGLjJB/D",
+    "hash": "eTlOrlhkFbi5mu3UT4A6\u002BIkhhkhQn0wFAgKt8PhnriQ=",
+    "secrets": {
+      "MQTTClientId": {
+        "value": "clRbeLIkHGLjJB/DjtmyilS9IngUaQbyCDowLqN/ycRAfN5jXwc="
+      },
+      "MQTTUsername": {
+        "value": "clRbeLIkHGLjJB/DpLHGT0\u002B3Xx3Jyedf4oRnpqN/39tMa952ewY="
+      },
+      "MQTTPassword": {
+        "value": "clRbeLIkHGLjJB/DQ1/L\u002BNZFTPxw69z2K3HukqN/2slaasd4ZAc="
+      }
+    }
+  },
+  "processAllComponents": true
+}

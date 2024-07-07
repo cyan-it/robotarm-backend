@@ -1,0 +1,82 @@
+{
+  "resources": {
+    "MQTTClientId": {
+      "type": "parameter.v0",
+      "value": "{MQTTClientId.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
+    "MQTTUsername": {
+      "type": "parameter.v0",
+      "value": "{MQTTUsername.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
+    "MQTTPassword": {
+      "type": "parameter.v0",
+      "value": "{MQTTPassword.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
+    "mqtt-server": {
+      "type": "project.v0",
+      "path": "../RobotRemoteControl.Server/RobotRemoteControl.Server.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
+        "MQTT_CLIENTID": "{MQTTClientId.value}",
+        "MQTT_USERNAME": "{MQTTUsername.value}",
+        "MQTT_PASSWORD": "{MQTTPassword.value}",
+        "MQTT_SERVER_PORT": "{mqtt-server.bindings.tcp.targetPort}"
+      },
+      "bindings": {
+        "tcp": {
+          "scheme": "tcp",
+          "protocol": "tcp",
+          "transport": "tcp",
+          "targetPort": 1883
+        }
+      }
+    },
+    "robotremotecontrol-ui": {
+      "type": "project.v0",
+      "path": "../RobotRemoteControl.UI/RobotRemoteControl.UI.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
+        "MQTT_CLIENTID": "{MQTTClientId.value}",
+        "MQTT_USERNAME": "{MQTTUsername.value}",
+        "MQTT_PASSWORD": "{MQTTPassword.value}",
+        "services__mqtt-server__tcp__0": "{mqtt-server.bindings.tcp.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    }
+  }
+}

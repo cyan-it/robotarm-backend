@@ -1,0 +1,12 @@
+namespace: roboarm
+
+resources:
+- mqtt-server
+- robotremotecontrol-ui
+- namespace.yaml
+- dashboard.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+
