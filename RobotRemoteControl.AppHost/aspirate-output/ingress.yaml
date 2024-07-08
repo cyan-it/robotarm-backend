@@ -1,0 +1,32 @@
+﻿apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  labels:
+    app: robotremotecontrol-ui
+  name: robotremotecontrol-ui-ingress
+spec:
+  rules:
+    - host: robotremotecontrol-ui.dd0227a3-b4b3-4af6-add0-330c446d4400.k8s.civo.com
+      http:
+        paths:
+          -
+            backend:
+              service:
+                name: robotremotecontrol-ui
+                port:
+                  number: 8080
+            path: /
+            pathType: "Prefix"
+    - host: dashboard.dd0227a3-b4b3-4af6-add0-330c446d4400.k8s.civo.com
+      http:
+        paths:
+          -
+            backend:
+              service:
+                name: aspire-dashboard
+                port:
+                  number: 18888
+            path: /
+            pathType: "Prefix"

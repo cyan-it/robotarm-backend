@@ -6,11 +6,17 @@
   "containerImageTags": [
     "latest"
   ],
+  "imagePullPolicy": "IfNotPresent",
   "containerBuilder": "docker",
+  "containerRepositoryPrefix": "pfeigl",
   "kubeContext": "roboarm",
   "outputFormat": "kustomize",
   "skipFinalKustomizeGeneration": false,
+  "privateRegistryUrl": "ghcr.io",
+  "privateRegistryUsername": "pfeigl",
   "privateRegistryEmail": "aspir8@aka.ms",
+  "withPrivateRegistry": true,
+  "includeDashboard": true,
   "useCustomNamespace": true,
   "secrets": {
     "salt": "clRbeLIkHGLjJB/D",

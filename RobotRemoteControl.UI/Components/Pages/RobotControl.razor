@@ -1,0 +1,71 @@
+﻿@page "/robotControl"
+@using MQTTnet
+@using MQTTnet.Client
+@using System.Net
+@using Microsoft.Extensions.ServiceDiscovery
+@using System.Text.Json
+@using System.Text
+@rendermode InteractiveServer
+@inject ServiceEndpointResolver serviceEndpointResolver
+@inject ILogger<RobotControl> Logger
+
+<PageTitle>Robot Remote</PageTitle>
+
+
+<label for="base">Base Rotation</label>
+<input type="range" class="form-range" id="Base" min="0" max="180" value="90" @onchange="@(e => PublishMessage(e, "Base"))" />
+
+<label for="base">Main Arm</label>
+<input type="range" class="form-range" id="Right" min="0" max="180" value="90" @onchange="@(e => PublishMessage(e, "Right"))" />
+
+<label for="base">Extension Arm</label>
+<input type="range" class="form-range" id="Left" min="0" max="180" value="90" @onchange="@(e => PublishMessage(e, "Left"))" />
+
+<label for="base">Gripper</label>
+<input type="range" class="form-range" id="Gripper" min="0" max="180" value="90" @onchange="@(e => PublishMessage(e, "Gripper"))" />
+
+@code {
+
+    private async Task PublishMessage(ChangeEventArgs e, string servo)
+    {
+        var mqttFactory = new MqttFactory();
+
+        using (var mqttClient = mqttFactory.CreateMqttClient())
+        {
+            var endpointsSource = await serviceEndpointResolver.GetEndpointsAsync("tcp://mqtt-server", CancellationToken.None);
+
+            var endpoint = endpointsSource.Endpoints.First().EndPoint;
+
+            var mqttClientOptionsBuilder = new MqttClientOptionsBuilder();
+
+            if (endpoint is DnsEndPoint || endpoint is IPEndPoint)
+            {
+                mqttClientOptionsBuilder = mqttClientOptionsBuilder.WithEndPoint(endpoint);
+            }
+            else
+            {
+                // This is hacky!!
+                // https://github.com/dotnet/aspire/issues/4224
+                mqttClientOptionsBuilder = mqttClientOptionsBuilder.WithConnectionUri(new Uri(endpoint.ToString()));
+            }
+
+            var mqttClientOptions = mqttClientOptionsBuilder
+                .WithClientId(Environment.GetEnvironmentVariable("MQTT_CLIENTID"))
+                .WithCredentials(
+                    Environment.GetEnvironmentVariable("MQTT_USERNAME"),
+                    Environment.GetEnvironmentVariable("MQTT_PASSWORD"))
+                .Build();
+
+            await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+
+            var applicationMessage = new MqttApplicationMessageBuilder()
+                .WithTopic($"servo/{servo}")
+                .WithPayload(Encoding.ASCII.GetBytes(e.Value?.ToString() ?? "90"))
+                .Build();
+
+            await mqttClient.PublishAsync(applicationMessage, CancellationToken.None);
+
+            await mqttClient.DisconnectAsync();
+        }
+    }
+}

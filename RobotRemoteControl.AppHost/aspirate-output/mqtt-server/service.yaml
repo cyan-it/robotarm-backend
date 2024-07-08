@@ -4,10 +4,11 @@ kind: Service
 metadata:
   name: mqtt-server
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: mqtt-server
   ports:
   - name: tcp
     port: 1883
     targetPort: 1883
+    nodePort: 30007

@@ -1,0 +1,9 @@
+<Project>
+
+	<PropertyGroup>
+		<ContainerRegistry>ghcr.io</ContainerRegistry>
+	</PropertyGroup>
+
+</Project>
+
+

@@ -16,5 +16,7 @@ configMapGenerator:
     - MQTT_USERNAME=MyUsername
     - MQTT_PASSWORD=MyPassword
     - services__mqtt-server__tcp__0=mqtt-server:1883
+    - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
+    - OTEL_SERVICE_NAME=robotremotecontrol-ui
     - ASPNETCORE_URLS=http://+:8080;
 

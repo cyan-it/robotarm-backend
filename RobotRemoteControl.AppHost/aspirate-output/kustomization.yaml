@@ -4,7 +4,9 @@ resources:
 - mqtt-server
 - robotremotecontrol-ui
 - namespace.yaml
+- image-pull-secret.yaml
 - dashboard.yaml
+- ingress.yaml
 
 generatorOptions:
   disableNameSuffixHash: true

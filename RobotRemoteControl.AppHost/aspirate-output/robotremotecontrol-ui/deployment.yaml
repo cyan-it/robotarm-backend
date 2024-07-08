@@ -18,10 +18,12 @@ spec:
       labels:
         app: robotremotecontrol-ui
     spec:
+      imagePullSecrets:
+      - name: image-pull-secret
       containers:
       - name: robotremotecontrol-ui
-        image: robotremotecontrol-ui:latest
-        imagePullPolicy: IfNotPresent
+        image: ghcr.io/pfeigl/robotremotecontrol-ui:latest
+        imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 8080

@@ -18,9 +18,11 @@ spec:
       labels:
         app: mqtt-server
     spec:
+      imagePullSecrets:
+      - name: image-pull-secret
       containers:
       - name: mqtt-server
-        image: mqtt-server:latest
+        image: ghcr.io/pfeigl/mqtt-server:latest
         imagePullPolicy: IfNotPresent
         ports:
         - name: tcp
